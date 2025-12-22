@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login | SHE BAKES</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background:#f4f4f4;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.card {
+  background:#fff;
+  padding:30px;
+  border-radius:8px;
+  width:320px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+input, button {
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+}
+button {
+  background:#d28c57;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Admin Login</h2>
+
+  <input type="email" id="email" placeholder="Admin Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  // 🔐 FIXED ADMIN CREDENTIALS
+  if (email === "admin@shebakes.com" && password === "admin@123") {
+    localStorage.setItem("isAdmin", "true");
+    window.location.href = "admin.html";
+  } else {
+    alert("Invalid admin credentials");
+  }
+}
+</script>
+
+</body>
+</html>

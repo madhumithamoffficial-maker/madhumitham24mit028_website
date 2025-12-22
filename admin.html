@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SHE BAKES | Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg-dark:#140c09;
+  --bg-card:#2a1a15;
+  --gold:#f4b27a;
+  --gold-dark:#c1784a;
+  --text:#fdf6ec;
+}
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#2b170f 0,#140c09 40%,#0b0705 100%);
+  color:var(--text);
+}
+
+/* 🔐 NAVBAR */
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(20,11,7,0.95);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:100;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:0.9rem 1.5rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;
+  color:var(--gold);
+}
+
+.nav-links{
+  display:flex;
+  gap:1.5rem;
+  align-items:center;
+}
+
+.nav-links a,
+.nav-links button{
+  background:none;
+  border:none;
+  color:var(--text);
+  cursor:pointer;
+  font-size:0.95rem;
+}
+
+.nav-links a:hover,
+.nav-links button:hover{
+  color:var(--gold);
+}
+
+/* PAGE */
+.container{
+  max-width:1200px;
+  margin:7rem auto 3rem;
+  padding:0 1.5rem;
+}
+
+.order-card{
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:1.5rem;
+  margin-bottom:1.5rem;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.order-card h3{
+  margin-top:0;
+  color:var(--gold);
+}
+
+.item{
+  font-size:0.9rem;
+  margin-left:0.5rem;
+  color:#e6d7ca;
+}
+
+/* GOLD CONTROLS */
+select{
+  padding:0.45rem 0.8rem;
+  border-radius:999px;
+  background:#000;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  margin-right:0.6rem;
+}
+
+.btn-gold{
+  padding:0.45rem 1.1rem;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  font-size:0.8rem;
+  letter-spacing:0.05em;
+}
+
+.update-btn{
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:#341a0d;
+  font-weight:600;
+}
+
+.invoice-btn{
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+}
+
+.invoice-btn:hover{
+  background:rgba(244,178,122,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 ADMIN AUTH CHECK -->
+<script>
+if (localStorage.getItem("isAdmin") !== "true") {
+  alert("Admin login required");
+  window.location.href = "login.html";
+}
+</script>
+
+<header>
+  <div class="nav">
+    <div class="logo">SHE BAKES • Admin</div>
+    <div class="nav-links">
+      <a href="#orders">Track Orders</a>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<div class="container" id="orders">
+  <div id="ordersList">Loading orders...</div>
+</div>
+
+<script>
+function logout(){
+  localStorage.removeItem("isAdmin");
+  window.location.href = "login.html";
+}
+
+fetch("http://localhost:3000/api/admin/orders")
+  .then(res => res.json())
+  .then(renderOrders)
+  .catch(()=> {
+    document.getElementById("ordersList").innerHTML="Failed to load orders";
+  });
+
+function renderOrders(orders){
+  const box=document.getElementById("ordersList");
+  box.innerHTML="";
+
+  if(!orders.length){
+    box.innerHTML="<p>No orders found</p>";
+    return;
+  }
+
+  orders.forEach(order=>{
+    box.innerHTML+=`
+      <div class="order-card">
+        <h3>Order #${order.id}</h3>
+        <p>Status: <strong>${order.status}</strong></p>
+        <p>Total: ₹${order.total}</p>
+        <p>Payment: ${order.payment}</p>
+        <p>Address: ${order.address}</p>
+
+        <h4>Items</h4>
+        ${
+          order.items.map(i=>`
+            <div class="item">
+              • ${i.product_name} – ${i.quantity}${i.is_cake?" kg":" pcs"}
+            </div>
+          `).join("")
+        }
+
+        <div style="margin-top:0.8rem;">
+          <select id="status_${order.id}">
+            <option ${order.status==="Pending"?"selected":""}>Pending</option>
+            <option ${order.status==="Preparing"?"selected":""}>Preparing</option>
+            <option ${order.status==="Out for Delivery"?"selected":""}>Out for Delivery</option>
+            <option ${order.status==="Delivered"?"selected":""}>Delivered</option>
+            <option ${order.status==="Cancelled"?"selected":""}>Cancelled</option>
+          </select>
+
+          <button class="btn-gold update-btn" onclick="updateStatus(${order.id})">
+            Update Status
+          </button>
+
+          <button class="btn-gold invoice-btn" onclick="viewInvoice(${order.id})">
+            View Invoice
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function updateStatus(id){
+  const status=document.getElementById(`status_${id}`).value;
+
+  fetch("http://localhost:3000/api/admin/orders/status",{
+    method:"PUT",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ order_id:id, status })
+  })
+  .then(()=>alert("Status updated"));
+}
+
+function viewInvoice(id){
+  window.open(`invoice.html?orderId=${id}`,"_blank");
+}
+</script>
+
+</body>
+</html>

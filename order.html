@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SHE BAKES | Order Now</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark:#1b120e;
+  --bg-card:#2a1a15;
+  --accent-gold:#f4b27a;
+  --accent-warm:#c1784a;
+  --text-light:#fdf6ec;
+  --text-muted:#d7c7b8;
+  --max-width:1200px;
+}
+
+body {
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#2b170f 0,#140c09 40%,#0b0705 100%);
+  color:var(--text-light);
+}
+
+a { text-decoration:none; color:inherit; }
+
+/* NAVBAR (same as menu.html) */
+header {
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(20,11,7,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  z-index:100;
+}
+
+.nav {
+  max-width:var(--max-width);
+  margin:auto;
+  padding:0.9rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  color:var(--accent-gold);
+}
+
+.logo img {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  white-space: nowrap;     /* ✅ prevents wrapping */
+  flex-wrap: nowrap;       /* ✅ single line */
+}
+
+.nav-links a,
+.nav-account {
+  font-size: 0.95rem;
+  flex-shrink: 0;          /* ✅ prevents breaking */
+}
+
+.nav-account {
+  position: relative;
+}
+
+.account-btn {
+  cursor: pointer;
+}
+
+.account-dropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: rgba(20,11,7,0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  min-width: 160px;
+  display: none;
+  flex-direction: column;
+  z-index: 200;
+}
+
+.account-dropdown a {
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+}
+
+.account-dropdown a:hover {
+  background: rgba(244,178,122,0.15);
+  color: var(--accent-gold);
+}
+
+.nav-account:hover .account-dropdown {
+  display: flex;
+}
+
+
+.nav-links a:hover {
+  color:var(--accent-gold);
+}
+
+/* SECTIONS */
+section {
+  padding:6rem 1.5rem 3rem;
+}
+
+.section-inner {
+  max-width:var(--max-width);
+  margin:auto;
+}
+
+h2 {
+  font-family:'Playfair Display',serif;
+  margin-bottom:1.5rem;
+  text-align:center;
+}
+
+/* PRODUCTS GRID */
+.products-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2rem;
+}
+
+.product-card {
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:1rem;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.product-card img {
+  width:100%;
+  height:230px;
+  object-fit:contain;
+  background:#1b120e;
+  border-radius:14px;
+  margin-bottom:0.9rem;
+}
+
+.product-footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.product-price {
+  color:var(--accent-gold);
+  font-weight:600;
+}
+
+.view-btn {
+  border-radius:999px;
+  padding:0.4rem 1rem;
+  background:rgba(244,178,122,0.16);
+  color:var(--accent-gold);
+  font-size:0.8rem;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  border:none;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<header>
+  <div class="nav">
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo">
+      SHE BAKES | MADHU 24MIT028
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="order.html">Menu</a>
+      <div class="nav-account" id="navAccount">
+     <a href="login.html" onclick="setRedirect(event)">Login</a>
+
+
+     </div>
+ 
+      <a href="cart.html">My Orders</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<script>
+const user = JSON.parse(localStorage.getItem("loggedInUser"));
+const navAccount = document.getElementById("navAccount");
+
+if (navAccount && user) {
+  navAccount.innerHTML = `
+    <div class="account-btn">
+      My Account
+      <div class="account-dropdown">
+        <a href="myorders.html">My Orders</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+  `;
+}
+
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  window.location.href = "login.html";
+}
+</script>
+
+
+<!-- CUPCAKES -->
+<section id="cupcakes">
+  <div class="section-inner">
+    <h2>Cupcakes</h2>
+
+    <div class="products-grid">
+
+      <article class="product-card">
+        <img src="images/p1.jpg">
+        <h3>Vanilla Bean Cream</h3>
+        <p class="product-meta">Soft vanilla cupcake topped with rich bean-infused cream.</p>
+        <div class="product-footer">
+          <span class="product-price">₹90 / piece</span>
+          <button class="view-btn" 
+           onclick="location.href='details.html?product=vanilla_bean'">
+           View Details</button>
+
+        </div>
+      </article>
+      <article class="product-card">
+        <img src="images/p3.jpg">
+        <h3>Red Velvet Cheesecake</h3>
+        <p class="product-meta">Red velvet base with creamy cheesecake swirl..</p>
+        <div class="product-footer">
+          <span class="product-price">₹130 / piece</span>
+          <button class="view-btn" 
+           onclick="location.href='details.html?product=red_velvet'">
+           View Details</button>
+
+        </div>
+      </article>
+
+      <article class="product-card">
+        <img src="images/p2.png">
+        <h3>Chocolate Truffle</h3>
+        <p class="product-meta">Deep chocolate cupcake with silky truffle frosting.</p>
+        <div class="product-footer">
+          <span class="product-price">₹110 / piece</span>
+          <button 
+  class="view-btn" 
+  onclick="location.href='details.html?product=chocolate_truffle'">
+  View Details
+</button>
+</div>
+      </article>
+<!-- SALTED & CHOCOLATE -->
+
+<article class="product-card">
+  <img src="images/p4.jpg">
+  <h3>Salted Caramel Vanilla</h3>
+  <p class="product-meta">Vanilla sponge with salted caramel drizzle.</p>
+  <div class="product-footer">
+    <span class="product-price">₹120 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=salted_caramel_vanilla'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p16.png">
+  <h3>Rasmalai Cupcake</h3>
+  <p class="product-meta">Milk-soaked sponge with rasmalai cream.</p>
+  <div class="product-footer">
+    <span class="product-price">₹150 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=rasmalai_cupcake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+</article>
+<article class="product-card">
+  <img src="images/p5.png">
+  <h3>Strawberry Rose</h3>
+  <p class="product-meta">Floral rose essence blended with strawberry cream.</p>
+  <div class="product-footer">
+    <span class="product-price">₹120 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=strawberry_rose'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p6.png">
+  <h3>Blueberry Lemon Zest</h3>
+  <p class="product-meta">Tangy lemon sponge topped with blueberry frosting.</p>
+  <div class="product-footer">
+    <span class="product-price">₹125 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=blueberry_lemon_zest'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p7.png">
+  <h3>Mango Delight</h3>
+  <p class="product-meta">Seasonal mango cupcake with whipped cream.</p>
+  <div class="product-footer">
+    <span class="product-price">₹110 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=mango_delight'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p8.png">
+  <h3>Pineapple Coconut</h3>
+  <p class="product-meta">Tropical pineapple base with coconut frosting.</p>
+  <div class="product-footer">
+    <span class="product-price">₹115 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=pineapple_coconut'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p9.png">
+  <h3>Raspberry White Chocolate</h3>
+  <p class="product-meta">Sweet–tart raspberry with smooth white chocolate.</p>
+  <div class="product-footer">
+    <span class="product-price">₹130 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=raspberry_white_chocolate'">
+      View Details
+    </button>
+  </div>
+</article>
+<article class="product-card">
+  <img src="images/p10.png">
+  <h3>Ferrero Rocher</h3>
+  <p class="product-meta">Chocolate cupcake topped with Ferrero Rocher.</p>
+  <div class="product-footer">
+    <span class="product-price">₹160 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=ferrero_rocher'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p11.png">
+  <h3>Nutella Lava</h3>
+  <p class="product-meta">Filled with molten Nutella center.</p>
+  <div class="product-footer">
+    <span class="product-price">₹150 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=nutella_lava'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p12.png">
+  <h3>Belgian Dark Chocolate</h3>
+  <p class="product-meta">Made using premium Belgian cocoa.</p>
+  <div class="product-footer">
+    <span class="product-price">₹145 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=belgian_dark_chocolate'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p13.png">
+  <h3>Oreo Overload</h3>
+  <p class="product-meta">Oreo base, Oreo cream, Oreo crunch.</p>
+  <div class="product-footer">
+    <span class="product-price">₹135 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=oreo_overload'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/p14.png">
+  <h3>Toblerone Crunch</h3>
+  <p class="product-meta">Honey-almond chocolate crunch topping.</p>
+  <div class="product-footer">
+    <span class="product-price">₹160 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=toblerone_crunch'">
+      View Details
+    </button>
+  </div>
+</article>
+<article class="product-card">
+  <img src="images/p15.png">
+  <h3>Gulab Jamun Cupcake</h3>
+  <p class="product-meta">Soft cupcake topped with mini gulab jamun.</p>
+  <div class="product-footer">
+    <span class="product-price">₹140 / piece</span>
+    <button class="view-btn" onclick="location.href='details.html?product=gulab_jamun_cupcake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+        
+
+      <!-- Repeat pattern for remaining items (already converted) -->
+
+    </div>
+  </div>
+</section>
+
+<!-- BIRTHDAY CAKES -->
+<section id="birthday">
+  <div class="section-inner">
+    <h2>Birthday Cakes</h2>
+
+    <div class="products-grid">
+
+      <article class="product-card">
+        <img src="images/birthday/pa1.png" alt="Classic Vanilla Birthday Cake">
+
+        <h3>Classic Vanilla</h3>
+
+        <p class="product-meta">
+          Soft vanilla sponge layered with smooth cream, perfect for birthdays.
+        </p>
+
+        <div class="product-footer">
+          <span class="product-price">₹699 / kg</span>
+
+          <button
+            class="view-btn"
+            onclick="location.href='details.html?product=classic_vanilla_cake'">
+            View Details
+          </button>
+        </div>
+      </article>
+      <!-- CHOCOLATE & CLASSIC -->
+
+<article class="product-card">
+  <img src="images/birthday/pa2.png" alt="Chocolate Truffle Birthday Cake">
+  <h3>Chocolate Truffle</h3>
+  <p class="product-meta">Rich chocolate sponge with silky truffle ganache.</p>
+  <div class="product-footer">
+    <span class="product-price">₹750 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=chocolate_truffle_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa3.png" alt="Red Velvet Cream Cheese Cake">
+  <h3>Red Velvet Cream Cheese</h3>
+  <p class="product-meta">Moist red velvet layers with cream cheese frosting.</p>
+  <div class="product-footer">
+    <span class="product-price">₹850 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=red_velvet_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa4.png" alt="Black Forest Delight Cake">
+  <h3>Black Forest Delight</h3>
+  <p class="product-meta">Chocolate sponge, whipped cream, and cherry filling.</p>
+  <div class="product-footer">
+    <span class="product-price">₹780 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=black_forest_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa5.png" alt="Butterscotch Crunch Cake">
+  <h3>Butterscotch Crunch</h3>
+  <p class="product-meta">Creamy butterscotch with caramel crunch layers.</p>
+  <div class="product-footer">
+    <span class="product-price">₹720 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=butterscotch_crunch_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+<article class="product-card">
+  <img src="images/birthday/pa6.png" alt="Strawberry Fresh Cream Cake">
+  <h3>Strawberry Fresh Cream</h3>
+  <p class="product-meta">Fluffy sponge layered with fresh strawberry cream.</p>
+  <div class="product-footer">
+    <span class="product-price">₹800 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=strawberry_fresh_cream_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa7.png" alt="Blueberry Bliss Cake">
+  <h3>Blueberry Bliss</h3>
+  <p class="product-meta">Vanilla sponge topped with blueberry compote.</p>
+  <div class="product-footer">
+    <span class="product-price">₹850 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=blueberry_bliss_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa8.png" alt="Mango Magic Cake">
+  <h3>Mango Magic</h3>
+  <p class="product-meta">Seasonal mango cream layered cake.</p>
+  <div class="product-footer">
+    <span class="product-price">₹750 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=mango_magic_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa9.png" alt="Pineapple Classic Cake">
+  <h3>Pineapple Classic</h3>
+  <p class="product-meta">Pineapple-infused sponge with whipped cream.</p>
+  <div class="product-footer">
+    <span class="product-price">₹700 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=pineapple_classic_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa10.png" alt="Raspberry White Chocolate Cake">
+  <h3>Raspberry White Chocolate</h3>
+  <p class="product-meta">Sweet–tart raspberry paired with white chocolate cream.</p>
+  <div class="product-footer">
+    <span class="product-price">₹900 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=raspberry_white_chocolate_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+<article class="product-card">
+  <img src="images/birthday/pa11.png" alt="Ferrero Rocher Chocolate Cake">
+  <h3>Ferrero Rocher Chocolate</h3>
+  <p class="product-meta">Rich chocolate cake topped with Ferrero Rocher.</p>
+  <div class="product-footer">
+    <span class="product-price">₹1100 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=ferrero_rocher_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa12.png" alt="Nutella Hazelnut Cake">
+  <h3>Nutella Hazelnut</h3>
+  <p class="product-meta">Chocolate sponge filled with Nutella cream.</p>
+  <div class="product-footer">
+    <span class="product-price">₹1050 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=nutella_hazelnut_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa13.png" alt="Belgian Dark Chocolate Cake">
+  <h3>Belgian Dark Chocolate</h3>
+  <p class="product-meta">Intense dark chocolate layers with ganache.</p>
+  <div class="product-footer">
+    <span class="product-price">₹1000 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=belgian_dark_chocolate_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa14.png" alt="Oreo Cookies and Cream Cake">
+  <h3>Oreo Cookies & Cream</h3>
+  <p class="product-meta">Oreo sponge with cookies & cream frosting.</p>
+  <div class="product-footer">
+    <span class="product-price">₹950 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=oreo_cookies_cream_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+<article class="product-card">
+  <img src="images/birthday/pa15.png" alt="KitKat Chocolate Fantasy Cake">
+  <h3>KitKat Chocolate Fantasy</h3>
+  <p class="product-meta">Chocolate cake surrounded by crunchy KitKat bars.</p>
+  <div class="product-footer">
+    <span class="product-price">₹980 / kg</span>
+    <button class="view-btn" onclick="location.href='details.html?product=kitkat_chocolate_fantasy_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+<article class="product-card">
+  <img src="images/birthday/pa16.png" alt="Lotus Biscoff Caramel Cake">
+  
+  <h3>Lotus Biscoff Caramel</h3>
+  
+  <p class="product-meta">
+    Smooth vanilla sponge layered with rich Biscoff spread and caramel cream, topped with crunchy Lotus biscuits.
+  </p>
+  
+  <div class="product-footer">
+    <span class="product-price">₹1050 / kg</span>
+    
+    <button 
+      class="view-btn" 
+      onclick="location.href='details.html?product=lotus_biscoff_caramel_cake'">
+      View Details
+    </button>
+  </div>
+</article>
+
+
+
+    </div>
+  </div>
+</section>
+
+
+<footer id="contact" style="text-align:center;padding:1.5rem;border-top:1px solid rgba(255,255,255,0.07);color:var(--text-muted);">
+  © 2025 SHE BAKES · Coimbatore
+</footer>
+<script>
+function setRedirect(e) {
+  e.preventDefault();
+
+  // current page with full query string
+  const currentPage = window.location.pathname.split('/').pop() + window.location.search;
+
+  const encodedRedirect = encodeURIComponent(currentPage);
+  window.location.href = `login.html?redirect=${encodedRedirect}`;
+}
+</script>
+
+
+</body>
+</html>

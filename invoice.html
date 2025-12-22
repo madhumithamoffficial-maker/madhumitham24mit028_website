@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SHE BAKES | Invoice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background:#f6f6f6;
+}
+.invoice {
+  max-width:800px;
+  margin:30px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:8px;
+}
+h2 { text-align:center; }
+.row {
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+table th, table td {
+  border:1px solid #ccc;
+  padding:8px;
+  text-align:left;
+}
+.total {
+  text-align:right;
+  font-size:18px;
+  margin-top:15px;
+}
+button {
+  margin-top:20px;
+  padding:10px 16px;
+  cursor:pointer;
+}
+@media print {
+  button { display:none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="invoice">
+  <h2>SHE BAKES – INVOICE</h2>
+
+  <div id="orderDetails"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceItems"></tbody>
+  </table>
+
+  <div class="total">
+    <strong>Total: ₹<span id="grandTotal"></span></strong>
+  </div>
+
+  <button onclick="window.print()">🖨 Print / Download Invoice</button>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const orderId = params.get("orderId");
+
+fetch(`http://localhost:3000/api/orders/invoice/${orderId}`)
+  .then(res => res.json())
+  .then(data => {
+    const { order, items } = data;
+
+    document.getElementById("orderDetails").innerHTML = `
+  <div class="row"><strong>Order ID:</strong> ${order.id}</div>
+  <div class="row"><strong>Customer Name:</strong> ${order.username}</div>
+  <div class="row"><strong>Email:</strong> ${order.email}</div>
+  <div class="row"><strong>Date:</strong> ${new Date(order.created_at).toLocaleString()}</div>
+  <div class="row"><strong>Status:</strong> ${order.status}</div>
+  <div class="row"><strong>Payment:</strong> ${order.payment}</div>
+  <div class="row"><strong>Delivery Address:</strong> ${order.address}</div>
+`;
+
+
+    let total = 0;
+    const tbody = document.getElementById("invoiceItems");
+
+    items.forEach(i => {
+      const itemTotal = i.price * i.quantity;
+      total += itemTotal;
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${i.product_name}</td>
+          <td>${i.quantity} ${i.is_cake ? "kg" : ""}</td>
+          <td>₹${i.price}</td>
+          <td>₹${itemTotal.toFixed(2)}</td>
+        </tr>
+      `;
+    });
+
+    document.getElementById("grandTotal").textContent = total.toFixed(2);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SHE BAKES | Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #1b120e;
+      --bg-card: #2a1a15;
+      --accent-gold: #f4b27a;
+      --accent-warm: #c1784a;
+      --text-light: #fdf6ec;
+      --text-muted: #d7c7b8;
+      --max-width: 1200px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #2b170f 0, #140c09 40%, #0b0705 100%);
+      color: var(--text-light);
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { width: 100%; display: block; }
+
+    /* NAVBAR */
+    header {
+      position: fixed;
+      top: 0; width: 100%;
+      background: rgba(20,11,7,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      z-index: 100;
+    }
+
+    .nav {
+      max-width: var(--max-width);
+      margin: auto;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.6rem;
+      font-size: 0.95rem;
+    }
+
+    /* PAGE */
+    main {
+      padding-top: 6rem;
+      padding-bottom: 4rem;
+    }
+
+    section {
+      max-width: var(--max-width);
+      margin: auto;
+      padding: 3rem 1.5rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-gold);
+    }
+
+    /* GRID */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border-radius: 18px;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card img {
+      height: 180px;
+      border-radius: 14px;
+      object-fit: cover;
+      margin-bottom: 0.8rem;
+    }
+
+    .product-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .product-meta {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .product-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .view-btn {
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      border: none;
+      background: rgba(244,178,122,0.16);
+      color: var(--accent-gold);
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+      border-color: rgba(244,178,122,0.7);
+    }
+
+    /* CATEGORY LINKS */
+    .category-links {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+
+    .category-links a {
+      margin: 0 0.6rem;
+      color: var(--accent-gold);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">
+      <img src="logo.png" alt="Logo">
+      SHE BAKES | MADHU 24MIT028
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="login.html">Login</a>
+      <a href="orders.html">My Orders</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- CATEGORIES -->
+  <section id="cakes"><h2>Cakes</h2>
+    <div class="products-grid">
+      <div class="product-card">
+        <img src="cake-1.jpg">
+        <h3>Chocolate Truffle</h3>
+        <p class="product-meta">Rich chocolate layers</p>
+        <div class="product-footer">
+          <span class="price">₹899</span>
+          <button class="view-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cupcakes"><h2>Cupcakes</h2>
+    <div class="products-grid">
+      <div class="product-card">
+        <img src="p1.jpg">
+        <h3>Red Velvet Cupcake</h3>
+        <p class="product-meta">Cream cheese frosting</p>
+        <div class="product-footer">
+          <span class="price">₹99</span>
+          <button class="view-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pastries"><h2>Pastries</h2></section>
+  <section id="breads"><h2>Breads</h2></section>
+  <section id="cookies"><h2>Cookies</h2></section>
+  <section id="custom"><h2>Custom Cakes</h2></section>
+
+  <!-- CATEGORY QUICK LINKS -->
+  <div class="category-links">
+    <a href="#cakes">Cakes</a> |
+    <a href="#cupcakes">Cupcakes</a> |
+    <a href="#pastries">Pastries</a> |
+    <a href="#breads">Breads</a> |
+    <a href="#cookies">Cookies</a> |
+    <a href="#custom">Custom Cakes</a>
+  </div>
+
+</main>
+
+<footer id="contact">
+  © 2025 SHE BAKES · Coimbatore
+</footer>
+
+</body>
+</html>

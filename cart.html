@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SHE BAKES | Cart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark:#0b0705;
+  --bg-card:#1b120e;
+  --accent:#f4b27a;
+  --text:#fdf6ec;
+  --muted:#cdbfb2;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#2b170f 0,#140c09 40%,#0b0705 100%);
+  color:var(--text);
+}
+a { color:inherit; text-decoration:none; }
+
+/* NAVBAR */
+header {
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(20,11,7,0.95);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:100;
+}
+.nav {
+  max-width:1200px;
+  margin:auto;
+  padding:0.9rem 1.5rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo {
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;
+  color:var(--accent);
+}
+.nav-links {
+  display:flex;
+  gap:1.4rem;
+  align-items:center;
+  white-space:nowrap;
+}
+
+
+/* PAGE */
+main {
+  padding:6.5rem 1.5rem 3rem;
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:2rem;
+}
+
+/* CART ITEM */
+.cart-item {
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:1.2rem;
+  margin-bottom:1.2rem;
+  display:flex;
+  justify-content:space-between;
+}
+.weight-box button {
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  border:none;
+  background:#000;
+  color:var(--text);
+  cursor:pointer;
+}
+
+.item-left h3 { font-size:1.05rem; }
+.item-left p { font-size:0.82rem; color:var(--muted); }
+.qty-box {
+  display:flex;
+  gap:0.6rem;
+  margin-top:0.5rem;
+}
+.qty-box button {
+  width:26px; height:26px;
+  border-radius:50%;
+  border:none;
+  background:#000;
+  color:var(--text);
+  cursor:pointer;
+}
+.item-right { text-align:right; }
+.item-right span { color:var(--accent); font-weight:600; }
+.remove { cursor:pointer; font-size:1.1rem; margin-top:0.4rem; }
+
+/* SUMMARY */
+.summary {
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:1.5rem;
+}
+.summary-row {
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:0.6rem;
+}
+.summary-row.total {
+  font-size:1.2rem;
+  color:var(--accent);
+  font-weight:600;
+}
+.checkout-btn, .add-more-btn {
+  width:100%;
+  margin-top:0.8rem;
+  padding:0.7rem;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+}
+.checkout-btn {
+  background:linear-gradient(135deg,var(--accent),#c1784a);
+  color:#341a0d;
+  font-weight:600;
+}
+.add-more-btn {
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.3);
+  color:var(--text);
+}
+
+/* EMPTY */
+.empty {
+  text-align:center;
+  padding:4rem 1rem;
+}
+.empty a { color:var(--accent); margin-top:1rem; display:inline-block; }
+
+@media(max-width:900px){
+  main { grid-template-columns:1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">SHE BAKES</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="order.html">Menu</a>
+      <a href="cart.html">Cart</a>
+
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section id="cartItems"></section>
+
+<aside class="summary">
+  <h3>Order Summary</h3>
+  <div class="summary-row">
+    <span>Subtotal</span>
+    <span id="subtotal">₹0.00</span>
+  </div>
+  <div class="summary-row">
+    <span>Delivery</span>
+    <span>₹15.00</span>
+  </div>
+  <div class="summary-row total">
+    <span>Total</span>
+    <span id="total">₹0.00</span>
+  </div>
+
+  <!-- ✅ ADD MORE ITEMS BUTTON -->
+  <button class="add-more-btn" onclick="goToMenu()">+ Add More Items</button>
+
+  <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+</aside>
+
+</main>
+
+<script>
+/* ===============================
+   LOGIN CHECK
+   =============================== */
+const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!currentUser) {
+  alert("Please login to view your cart");
+  window.location.href = "login.html";
+}
+
+const DELIVERY = 15;
+let cart = [];
+
+/* ===============================
+   FETCH CART FROM MYSQL
+   =============================== */
+fetch(`http://localhost:3000/api/cart/${currentUser.id}`)
+  .then(res => {
+    if (!res.ok) throw new Error("Failed");
+    return res.json();
+  })
+  .then(data => {
+    cart = data;
+    renderCart();
+  })
+  .catch(() => {
+    alert("Failed to load cart");
+  });
+
+/* ===============================
+   RENDER CART
+   =============================== */
+function renderCart() {
+  const container = document.getElementById("cartItems");
+  container.innerHTML = "";
+
+  if (!cart.length) {
+    container.innerHTML = `
+      <div class="empty">
+        <h3>Your cart is empty 🍰</h3>
+        <p>Add some delicious items!</p>
+      </div>`;
+    updateTotals();
+    return;
+  }
+
+  cart.forEach(item => {
+  const unit = item.is_cake ? "kg" : "qty";
+
+  container.innerHTML += `
+    <div class="cart-item">
+      <div class="item-left">
+        <h3>${item.name}</h3>
+        <div class="qty-box">
+          <button onclick="updateQty(${item.id}, -1, ${item.is_cake})">−</button>
+          <span>${item.quantity} ${unit}</span>
+          <button onclick="updateQty(${item.id}, 1, ${item.is_cake})">+</button>
+        </div>
+      </div>
+
+      <div class="item-right">
+        <span>₹${(item.price * item.quantity).toFixed(2)}</span>
+        <div class="remove" onclick="removeItem(${item.id})">🗑</div>
+      </div>
+    </div>
+  `;
+});
+
+    
+
+  updateTotals();
+}
+
+/* ===============================
+   TOTALS
+   =============================== */
+function updateTotals() {
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  document.getElementById("subtotal").textContent = `₹${subtotal.toFixed(2)}`;
+  document.getElementById("total").textContent =
+    `₹${(subtotal + (cart.length ? DELIVERY : 0)).toFixed(2)}`;
+
+  
+}
+
+/* ===============================
+   UPDATE QUANTITY / WEIGHT
+   =============================== */
+/* ===============================
+   UPDATE QUANTITY / WEIGHT (Corrected)
+   =============================== */
+function updateQty(cartItemId, delta, isCake) {
+  // Just for debugging purposes
+  console.log("Updating qty:", cartItemId, delta, isCake);
+
+  fetch("http://localhost:3000/api/cart/update", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      cart_item_id: cartItemId, // Correct cart item ID
+      delta: delta,              // Correct increment/decrement
+      is_cake: isCake           // Flag if it's a cake or not
+    })
+  })
+  .then(res => res.json())
+  .then(() => location.reload())  // Reload the page to see the update
+  .catch(() => alert("Failed to update quantity"));
+}
+
+/* ===============================
+   REMOVE ITEM
+   =============================== */
+function removeItem(cartItemId) {
+  if (!confirm("Remove this item from cart?")) return;
+
+  fetch(`http://localhost:3000/api/cart/remove/${cartItemId}`, {
+    method: "DELETE"
+  })
+  .then(() => location.reload())
+  .catch(() => alert("Failed to remove item"));
+}
+
+/* ===============================
+   NAVIGATION
+   =============================== */
+function goToMenu() {
+  window.location.href = "order.html";
+}
+
+function checkout() {
+  window.location.href = "checkout.html";
+}
+</script>
+
+</body>
+</html>

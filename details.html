@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SHE BAKES | Product Details</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- SAME CSS AS YOUR FILE (UNCHANGED) ---------- */
+:root {
+  --bg-dark:#1b120e;
+  --bg-card:#2a1a15;
+  --accent-gold:#f4b27a;
+  --accent-warm:#c1784a;
+  --text-light:#fdf6ec;
+  --text-muted:#d7c7b8;
+  --max-width:1200px;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#2b170f 0,#140c09 40%,#0b0705 100%);
+  color:var(--text-light);
+}
+
+a { text-decoration:none; color:inherit; }
+
+header {
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(20,11,7,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  z-index:100;
+}
+
+.nav {
+  max-width:var(--max-width);
+  margin:auto;
+  padding:0.9rem 1.5rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  color:var(--accent-gold);
+}
+
+.logo img {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  white-space: nowrap;     /* ✅ prevents wrapping */
+  flex-wrap: nowrap;       /* ✅ single line */
+}
+
+.nav-links a,
+.nav-account {
+  font-size: 0.95rem;
+  flex-shrink: 0;          /* ✅ prevents breaking */
+}
+
+
+.nav-links a:hover { color:var(--accent-gold); }
+
+main {
+  padding-top:7rem;
+  padding-bottom:4rem;
+}
+
+.details-wrapper {
+  max-width:var(--max-width);
+  margin:auto;
+  padding:0 1.5rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3rem;
+}
+
+.product-image {
+  background:var(--bg-card);
+  padding:1rem;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.product-image img {
+  width:100%;
+  height:420px;
+  object-fit:contain;
+  border-radius:16px;
+  background:#1b120e;
+}
+
+.product-details h1 {
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;
+  margin-bottom:0.5rem;
+}
+
+.category {
+  font-size:0.9rem;
+  color:var(--accent-gold);
+  margin-bottom:1rem;
+}
+
+.price {
+  font-size:1.4rem;
+  color:var(--accent-gold);
+  margin-bottom:1rem;
+}
+
+.description {
+  color:var(--text-muted);
+  font-size:0.95rem;
+  margin-bottom:1.4rem;
+}
+
+.highlights {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  padding:1rem;
+  margin-bottom:1.4rem;
+}
+
+.highlights h4 {
+  font-size:0.95rem;
+  margin-bottom:0.5rem;
+  color:var(--accent-gold);
+}
+
+.highlights ul {
+  padding-left:1.2rem;
+  font-size:0.85rem;
+  color:var(--text-muted);
+}
+
+.option-row {
+  margin-bottom:1rem;
+}
+
+.option-row label {
+  font-size:0.85rem;
+  margin-right:0.6rem;
+}
+.nav-account {
+  position: relative;
+}
+
+.account-btn {
+  cursor: pointer;
+}
+
+.account-dropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: rgba(20,11,7,0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  min-width: 160px;
+  display: none;
+  flex-direction: column;
+  z-index: 200;
+}
+
+.account-dropdown a {
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+}
+
+.account-dropdown a:hover {
+  background: rgba(244,178,122,0.15);
+  color: var(--accent-gold);
+}
+
+.nav-account:hover .account-dropdown {
+  display: flex;
+}
+
+
+.qty-box {
+  display:inline-flex;
+  align-items:center;
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:999px;
+}
+
+.qty-box button {
+  background:transparent;
+  border:none;
+  color:var(--text-light);
+  padding:0.4rem 0.8rem;
+  font-size:1.1rem;
+  cursor:pointer;
+}
+
+.qty-box span {
+  padding:0 0.9rem;
+  font-size:0.9rem;
+}
+
+.actions {
+  display:flex;
+  gap:1rem;
+  margin-top:1.6rem;
+}
+
+.primary-btn {
+  border-radius:999px;
+  padding:0.7rem 1.6rem;
+  border:none;
+  background:linear-gradient(135deg,var(--accent-gold),var(--accent-warm));
+  color:#341a0d;
+  font-size:0.9rem;
+}
+
+.ghost-btn {
+  border-radius:999px;
+  padding:0.7rem 1.4rem;
+  border:1px solid rgba(255,255,255,0.25);
+  background:transparent;
+  color:var(--text-light);
+  font-size:0.85rem;
+}
+
+@media (max-width:900px) {
+  .details-wrapper { grid-template-columns:1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">
+      <img src="logo.png">
+      SHE BAKES | MADHU 24MIT028
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="order.html">Menu</a>
+      <div class="nav-account" id="navAccount">
+     <a href="login.html" onclick="setRedirect(event)">Login</a>
+
+
+     </div>
+
+      <a href="cart.html">My Orders</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="details-wrapper">
+
+    <div class="product-image">
+      <img id="productImage">
+    </div>
+
+    <div class="product-details">
+      <h1 id="productName"></h1>
+      <div class="category" id="productCategory"></div>
+
+      <!-- ✅ PRICE LABEL -->
+      <div class="price">
+        <strong>Price:</strong>
+        <span id="productPrice"></span>
+        <small style="font-size:0.8rem;color:var(--text-muted);">
+          (₹<span id="unitPrice"></span> each)
+        </small>
+      </div>
+
+      <p class="description" id="productDescription"></p>
+
+      <div class="highlights">
+        <h4>Highlights</h4>
+        <ul id="productHighlights"></ul>
+      </div>
+
+      <div class="option-row">
+        <label>Eggless:</label>
+        <select>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div class="option-row">
+        <label>Quantity:</label>
+        <div class="qty-box">
+          <button onclick="changeQty(-1)">−</button>
+          <span id="qty">1</span>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary-btn" onclick="addToCart()">Add to Cart</button>
+
+        <a href="order.html" class="ghost-btn">← Back to Menu</a>
+        <a href="index.html" class="ghost-btn">🏠 Home</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const products = {
+  chocolate_truffle: {
+    name: "Chocolate Truffle Cupcake",
+    category: "Cupcakes",
+    price: 110,
+    image: "images/p2.png",
+    description: "A rich chocolate cupcake topped with silky smooth truffle frosting.",
+    highlights: ["Premium cocoa", "Freshly baked", "Rich & indulgent"]
+  },
+  vanilla_bean: {
+    name: "Vanilla Bean Cream Cupcake",
+    category: "C1",
+    price: 90,
+    image: "images/p1.jpg",
+    description: "Soft vanilla cupcake infused with real vanilla bean cream.",
+    highlights: ["Real vanilla", "Light & fluffy", "Customer favorite"]
+  },
+  red_velvet: {
+  name: "Red Velvet Cream Cupcake",
+  category: "C1",
+  price: 150,
+  image: "images/p3.jpg",
+  description: "Moist red velvet cupcake with a rich cocoa flavor topped with smooth cream cheese frosting.",
+  highlights: ["Classic red velvet", "Cream cheese frosting", "Rich & moist"]
+},
+salted_caramel_vanilla: {
+    name: "Salted Caramel Vanilla",
+    category: "C1",
+    price: 120,
+    image: "images/p4.jpg",
+    description: "Vanilla sponge with salted caramel drizzle.",
+    highlights: ["Salted caramel", "Soft vanilla sponge", "Balanced sweetness"]
+  },
+
+  rasmalai_cupcake: {
+    name: "Rasmalai Cupcake",
+    category: "c1",
+    price: 150,
+    image: "images/p16.png",
+    description: "Milk-soaked sponge with rasmalai cream.",
+    highlights: ["Indian fusion", "Saffron milk flavor", "Rich & creamy"]
+  },
+
+  strawberry_rose: {
+    name: "Strawberry Rose",
+    category: "Fruity",
+    price: 120,
+    image: "images/p5.png",
+    description: "Floral rose essence blended with strawberry cream.",
+    highlights: ["Floral notes", "Fresh strawberry", "Light & refreshing"]
+  },
+
+  blueberry_lemon_zest: {
+    name: "Blueberry Lemon Zest",
+    category: "Fruity",
+    price: 125,
+    image: "images/p6.png",
+    description: "Tangy lemon sponge topped with blueberry frosting.",
+    highlights: ["Citrus twist", "Blueberry frosting", "Zesty flavor"]
+  },
+
+  mango_delight: {
+    name: "Mango Delight",
+    category: "Fruity ",
+    price: 110,
+    image: "images/p7.png",
+    description: "Seasonal mango cupcake with whipped cream.",
+    highlights: ["Seasonal mango", "Light cream", "Summer special"]
+  },
+
+  pineapple_coconut: {
+    name: "Pineapple Coconut",
+    category: "Fruity ",
+    price: 115,
+    image: "images/p8.png",
+    description: "Tropical pineapple base with coconut frosting.",
+    highlights: ["Tropical flavor", "Coconut frosting", "Fresh & juicy"]
+  },
+
+  raspberry_white_chocolate: {
+    name: "Raspberry White Chocolate",
+    category: "Fruity ",
+    price: 130,
+    image: "images/p9.png",
+    description: "Sweet–tart raspberry with smooth white chocolate.",
+    highlights: ["Sweet-tart taste", "White chocolate", "Premium blend"]
+  },
+
+  ferrero_rocher: {
+    name: "Ferrero Rocher",
+    category: "Premium ",
+    price: 160,
+    image: "images/p10.png",
+    description: "Chocolate cupcake topped with Ferrero Rocher.",
+    highlights: ["Luxury chocolate", "Ferrero topping", "Rich & indulgent"]
+  },
+
+  nutella_lava: {
+    name: "Nutella Lava",
+    category: "Premium ",
+    price: 150,
+    image: "images/p11.png",
+    description: "Filled with molten Nutella center.",
+    highlights: ["Molten center", "Nutella filling", "Chocolate overload"]
+  },
+
+  belgian_dark_chocolate: {
+    name: "Belgian Dark Chocolate",
+    category: "Premium ",
+    price: 145,
+    image: "images/p12.png",
+    description: "Made using premium Belgian cocoa.",
+    highlights: ["Belgian cocoa", "Intense chocolate", "Rich flavor"]
+  },
+
+  oreo_overload: {
+    name: "Oreo Overload",
+    category: "Premium ",
+    price: 135,
+    image: "images/p13.png",
+    description: "Oreo base, Oreo cream, Oreo crunch.",
+    highlights: ["Triple Oreo", "Crunchy texture", "Kids favorite"]
+  },
+
+  toblerone_crunch: {
+    name: "Toblerone Crunch",
+    category: "Premium ",
+    price: 160,
+    image: "images/p14.png",
+    description: "Honey-almond chocolate crunch topping.",
+    highlights: ["Toblerone chocolate", "Nutty crunch", "Luxury taste"]
+  },
+
+  gulab_jamun_cupcake: {
+    name: "Gulab Jamun Cupcake",
+    category: "Indian Fusion ",
+    price: 140,
+    image: "images/p15.png",
+    description: "Soft cupcake topped with mini gulab jamun.",
+    highlights: ["Indian dessert fusion", "Soft texture", "Sweet syrupy taste"]
+  },
+  classic_vanilla_cake: {
+  name: "Classic Vanilla Birthday Cake",
+  category: "Birthday Cakes",
+  price: 699,                 // price per kg
+  image: "images/birthday/pa1.png",
+  description: "Soft vanilla sponge layered with smooth cream frosting, perfect for birthday celebrations.",
+  highlights: [
+    "Classic birthday favorite",
+    "Soft vanilla sponge",
+    "Smooth cream frosting",
+    "Customizable weight"
+  ]
+},chocolate_truffle_cake: {
+    name: "Chocolate Truffle Birthday Cake",
+    category: "Birthday Cakes",
+    price: 750,
+    image: "images/birthday/pa2.png",
+    description: "Rich chocolate sponge layered with silky truffle ganache.",
+    highlights: [
+      "Rich chocolate flavor",
+      "Silky truffle ganache",
+      "Chocolate lover’s choice",
+      "Customizable weight"
+    ]
+  },
+
+  red_velvet_cake: {
+    name: "Red Velvet Cream Cheese Cake",
+    category: "Birthday Cakes",
+    price: 850,
+    image: "images/birthday/pa3.png",
+    description: "Moist red velvet layers with cream cheese frosting.",
+    highlights: [
+      "Cream cheese frosting",
+      "Moist red velvet sponge",
+      "Classic celebration cake",
+      "Customizable weight"
+    ]
+  },
+
+  black_forest_cake: {
+    name: "Black Forest Delight Cake",
+    category: "Birthday Cakes",
+    price: 780,
+    image: "images/birthday/pa4.png",
+    description: "Chocolate sponge layered with whipped cream and cherry filling.",
+    highlights: [
+      "Cherry filling",
+      "Whipped cream layers",
+      "Traditional favorite",
+      "Customizable weight"
+    ]
+  },
+
+  butterscotch_crunch_cake: {
+    name: "Butterscotch Crunch Cake",
+    category: "Birthday Cakes",
+    price: 720,
+    image: "images/birthday/pa5.png",
+    description: "Creamy butterscotch cake with caramel crunch layers.",
+    highlights: [
+      "Butterscotch cream",
+      "Caramel crunch",
+      "Crunchy texture",
+      "Customizable weight"
+    ]
+  },
+
+  strawberry_fresh_cream_cake: {
+    name: "Strawberry Fresh Cream Cake",
+    category: "Fruity Birthday Cakes",
+    price: 800,
+    image: "images/birthday/pa6.png",
+    description: "Fluffy sponge layered with fresh strawberry cream.",
+    highlights: [
+      "Fresh strawberry flavor",
+      "Light & airy sponge",
+      "Refreshing taste",
+      "Customizable weight"
+    ]
+  },
+
+  blueberry_bliss_cake: {
+    name: "Blueberry Bliss Cake",
+    category: "Fruity Birthday Cakes",
+    price: 850,
+    image: "images/birthday/pa7.png",
+    description: "Vanilla sponge topped with rich blueberry compote.",
+    highlights: [
+      "Blueberry compote",
+      "Vanilla sponge",
+      "Balanced sweetness",
+      "Customizable weight"
+    ]
+  },
+
+  mango_magic_cake: {
+    name: "Mango Magic Cake",
+    category: "Fruity Birthday Cakes",
+    price: 750,
+    image: "images/birthday/pa8.png",
+    description: "Seasonal mango cream layered cake.",
+    highlights: [
+      "Seasonal mango",
+      "Fresh cream layers",
+      "Summer favorite",
+      "Customizable weight"
+    ]
+  },
+
+  pineapple_classic_cake: {
+    name: "Pineapple Classic Cake",
+    category: "Fruity Birthday Cakes",
+    price: 700,
+    image: "images/birthday/pa9.png",
+    description: "Pineapple-infused sponge layered with whipped cream.",
+    highlights: [
+      "Classic pineapple flavor",
+      "Whipped cream frosting",
+      "Light & fresh",
+      "Customizable weight"
+    ]
+  },
+
+  raspberry_white_chocolate_cake: {
+    name: "Raspberry White Chocolate Cake",
+    category: "Fruity Birthday Cakes",
+    price: 900,
+    image: "images/birthday/pa10.png",
+    description: "Sweet–tart raspberry paired with smooth white chocolate cream.",
+    highlights: [
+      "White chocolate cream",
+      "Raspberry compote",
+      "Premium flavor",
+      "Customizable weight"
+    ]
+  },
+
+  ferrero_rocher_cake: {
+    name: "Ferrero Rocher Chocolate Cake",
+    category: "Premium Birthday Cakes",
+    price: 1100,
+    image: "images/birthday/pa11.png",
+    description: "Rich chocolate cake topped with Ferrero Rocher chocolates.",
+    highlights: [
+      "Ferrero Rocher topping",
+      "Luxury chocolate cake",
+      "Rich & indulgent",
+      "Customizable weight"
+    ]
+  },
+
+  nutella_hazelnut_cake: {
+    name: "Nutella Hazelnut Birthday Cake",
+    category: "Premium Birthday Cakes",
+    price: 1050,
+    image: "images/birthday/pa12.png",
+    description: "Chocolate sponge filled with rich Nutella hazelnut cream.",
+    highlights: [
+      "Nutella filling",
+      "Hazelnut flavor",
+      "Chocolate indulgence",
+      "Customizable weight"
+    ]
+  },
+
+  belgian_dark_chocolate_cake: {
+    name: "Belgian Dark Chocolate Overload Cake",
+    category: "Premium Birthday Cakes",
+    price: 1000,
+    image: "images/birthday/pa13.png",
+    description: "Intense Belgian dark chocolate layers with rich ganache.",
+    highlights: [
+      "Belgian cocoa",
+      "Dark chocolate ganache",
+      "Chocolate overload",
+      "Customizable weight"
+    ]
+  },
+
+  oreo_cookies_cream_cake: {
+    name: "Oreo Cookies & Cream Cake",
+    category: "Premium Birthday Cakes",
+    price: 950,
+    image: "images/birthday/pa14.png",
+    description: "Oreo sponge layered with cookies & cream frosting.",
+    highlights: [
+      "Oreo crunch",
+      "Creamy frosting",
+      "Kids favorite",
+      "Customizable weight"
+    ]
+  },
+
+  kitkat_chocolate_fantasy_cake: {
+    name: "KitKat Chocolate Fantasy Cake",
+    category: "Premium Birthday Cakes",
+    price: 980,
+    image: "images/birthday/pa15.png",
+    description: "Chocolate cake surrounded by crunchy KitKat bars.",
+    highlights: [
+      "KitKat crunch",
+      "Chocolate rich cake",
+      "Party special",
+      "Customizable weight"
+    ]
+  },
+
+  lotus_biscoff_caramel_cake: {
+    name: "Lotus Biscoff Caramel Cake",
+    category: "Premium Birthday Cakes",
+    price: 1050,
+    image: "images/birthday/pa16.png",
+    description: "Smooth vanilla sponge layered with rich Biscoff spread and caramel cream, topped with crunchy Lotus biscuits.",
+    highlights: [
+      "Lotus Biscoff spread",
+      "Caramel cream layers",
+      "Premium dessert cake",
+      "Customizable weight"
+    ]
+  }
+
+
+};
+
+
+const params = new URLSearchParams(window.location.search);
+const product = products[params.get("product")];
+
+let qty = 1;
+let unitPrice = 0;
+let isCake = false;
+let cakeWeight = 1; // default weight for all cakes
+
+
+function updatePrice() {
+  let totalPrice;
+
+  if (isCake) {
+    totalPrice = unitPrice * cakeWeight;
+    document.getElementById("qty").textContent = cakeWeight + " kg";
+    document.getElementById("unitPrice").textContent = unitPrice + " / kg";
+  } else {
+    totalPrice = unitPrice * qty;
+    document.getElementById("qty").textContent = qty;
+    document.getElementById("unitPrice").textContent = unitPrice;
+  }
+
+  document.getElementById("productPrice").textContent =
+    "₹" + totalPrice.toFixed(2);
+}
+
+
+function changeQty(val) {
+  if (isCake) {
+    cakeWeight += val * 0.5;
+    if (cakeWeight < 0.5) cakeWeight = 0.5;
+  } else {
+    qty = Math.max(1, qty + val);
+  }
+  updatePrice();
+}
+
+
+if (product) {
+  document.getElementById("productName").textContent = product.name;
+  document.getElementById("productCategory").textContent = product.category;
+  document.getElementById("productImage").src = product.image;
+  document.getElementById("productDescription").textContent = product.description;
+  
+
+  const ul = document.getElementById("productHighlights");
+  product.highlights.forEach(h => {
+    const li = document.createElement("li");
+    li.textContent = h;
+    ul.appendChild(li);
+  });
+  isCake = product.category.toLowerCase().includes("cake");
+  unitPrice = product.price;
+  updatePrice();
+}
+</script>
+<script>
+
+const user = JSON.parse(localStorage.getItem("loggedInUser"));
+const navAccount = document.getElementById("navAccount");
+
+if (navAccount && user) {
+  navAccount.innerHTML = `
+    <div class="account-btn">
+      My Account
+      <div class="account-dropdown">
+        <a href="myorders.html">My Orders</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+  `;
+}
+
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  window.location.href = "login.html";
+}
+</script>
+<script>
+function setRedirect(e) {
+  e.preventDefault();
+
+  // current page with full query string
+  const currentPage = window.location.pathname.split('/').pop() + window.location.search;
+
+  const encodedRedirect = encodeURIComponent(currentPage);
+  window.location.href = `login.html?redirect=${encodedRedirect}`;
+}
+</script>
+<script>
+function addToCart() {
+  // 🔐 LOGIN CHECK
+  const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!currentUser) {
+    alert("Please login to add items to cart");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const productKey = new URLSearchParams(window.location.search).get("product");
+
+  // For cakes, weight acts as quantity
+  const quantityToSend = isCake ? cakeWeight : qty;
+
+  fetch("http://localhost:3000/api/cart/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: currentUser.id,
+      product_key: productKey,
+      product_name: product.name,
+      price: unitPrice,
+      quantity: quantityToSend,
+      is_cake: isCake
+    })
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert("Added to cart successfully!");
+    window.location.href = "cart.html";
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Failed to add to cart");
+  });
+}
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SHE BAKES | Checkout</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark:#0b0705;
+  --bg-card:#1b120e;
+  --accent:#f4b27a;
+  --text:#fdf6ec;
+  --muted:#cdbfb2;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#2b170f 0,#140c09 40%,#0b0705 100%);
+  color:var(--text);
+}
+
+a { color:inherit; text-decoration:none; }
+
+/* NAVBAR */
+header {
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(20,11,7,0.95);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:100;
+}
+
+.nav {
+  max-width:1200px;
+  margin:auto;
+  padding:0.9rem 1.5rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo {
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;
+  color:var(--accent);
+}
+
+.nav-links {
+  display:flex;
+  gap:1.4rem;
+  align-items:center;
+}
+
+/* PAGE */
+main {
+  padding:7rem 1.5rem 3rem;
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:2rem;
+}
+
+/* CARDS */
+.card {
+  background:var(--bg-card);
+  border-radius:20px;
+  padding:1.8rem;
+}
+
+.card h2 {
+  font-family:'Playfair Display',serif;
+  margin-bottom:1rem;
+}
+
+/* FORM */
+.form-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  margin-bottom:1rem;
+}
+
+.form-row.full {
+  grid-template-columns:1fr;
+}
+
+input, textarea, select {
+  width:100%;
+  padding:0.65rem;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:#000;
+  color:var(--text);
+}
+
+textarea {
+  resize:none;
+  height:80px;
+}
+
+/* PAYMENT */
+.payment-option {
+  margin-bottom:0.6rem;
+}
+
+.upi-box {
+  margin-top:0.6rem;
+  padding:0.8rem;
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  display:none;
+  font-size:0.9rem;
+  color:var(--accent);
+}
+
+/* SUMMARY */
+.summary-item {
+  display:flex;
+  justify-content:space-between;
+  font-size:0.9rem;
+  margin-bottom:0.4rem;
+}
+
+.summary-total {
+  font-size:1.2rem;
+  color:var(--accent);
+  font-weight:600;
+  margin-top:0.6rem;
+}
+
+/* BUTTON */
+button {
+  width:100%;
+  margin-top:1.2rem;
+  padding:0.7rem;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,var(--accent),#c1784a);
+  color:#341a0d;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  main { grid-template-columns:1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">SHE BAKES</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="cart.html">Cart</a>
+      <a href="myorders.html">My Orders</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- DELIVERY DETAILS -->
+<div class="card">
+  <h2>Delivery Details</h2>
+
+  <div class="form-row">
+    <input type="text" id="name" placeholder="Name *">
+    <input type="tel" id="phone" placeholder="Phone *">
+  </div>
+
+  <div class="form-row full">
+    <textarea id="address" placeholder="Delivery Address *"></textarea>
+  </div>
+
+  <div class="form-row">
+    <input type="text" id="city" placeholder="City *">
+    <input type="text" id="pincode" placeholder="Pincode *">
+  </div>
+
+  <div class="form-row">
+    <input type="date" id="date">
+    <input type="time" id="time">
+  </div>
+
+  <h2 style="margin-top:1.2rem;">Payment Method</h2>
+
+  <div class="payment-option">
+    <input type="radio" name="payment" value="COD"> Cash on Delivery
+  </div>
+
+  <div class="payment-option">
+    <input type="radio" name="payment" value="UPI" onclick="showUpi()"> UPI Payment
+  </div>
+
+  <div class="upi-box" id="upiBox">
+    Pay to UPI Number: <strong>7094073996</strong><br>
+    After payment, send screenshot to <strong>7094073996</strong>
+  </div>
+
+  <button onclick="placeOrder()">Place Order</button>
+</div>
+
+<!-- ORDER SUMMARY -->
+<div class="card">
+  <h2>Order Summary</h2>
+  <div id="orderItems"></div>
+  <hr style="margin:0.8rem 0;border-color:rgba(255,255,255,0.1)">
+  <div class="summary-item">
+    <span>Subtotal</span>
+    <span id="subtotal"></span>
+  </div>
+  <div class="summary-item">
+    <span>Delivery</span>
+    <span>₹15</span>
+  </div>
+  <div class="summary-item summary-total">
+    <span>Total</span>
+    <span id="total"></span>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ===============================
+// LOGIN CHECK
+// ===============================
+const user = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!user) {
+  alert("Please login to continue");
+  window.location.href = "login.html";
+}
+
+const deliveryCharge = 15;
+let cart = [];
+let subtotal = 0;
+
+// ===============================
+// FETCH CART FROM MYSQL
+// ===============================
+fetch(`http://localhost:3000/api/cart/${user.id}`)
+  .then(res => res.json())
+  .then(data => {
+    cart = data;
+    renderSummary();
+  })
+  .catch(() => {
+    alert("Failed to load cart");
+    window.location.href = "cart.html";
+  });
+
+// ===============================
+// RENDER ORDER SUMMARY
+// ===============================
+function renderSummary() {
+  const orderItems = document.getElementById("orderItems");
+  orderItems.innerHTML = "";
+  subtotal = 0;
+
+  cart.forEach(item => {
+    const total = item.price * item.quantity;
+    subtotal += total;
+
+    orderItems.innerHTML += `
+      <div class="summary-item">
+        <span>${item.name} (${item.is_cake ? item.quantity + " kg" : item.quantity + " pcs"})</span>
+        <span>₹${total.toFixed(2)}</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("subtotal").textContent = "₹" + subtotal.toFixed(2);
+  document.getElementById("total").textContent =
+    "₹" + (subtotal + deliveryCharge).toFixed(2);
+}
+
+// ===============================
+// PAYMENT UI
+// ===============================
+function showUpi() {
+  document.getElementById("upiBox").style.display = "block";
+}
+
+// ===============================
+// PLACE ORDER (MYSQL)
+// ===============================
+function placeOrder() {
+
+  // 🔒 5-day rule
+  const date = document.getElementById("date").value;
+  const today = new Date();
+  const selected = new Date(date);
+  const diff = (selected - today) / (1000 * 60 * 60 * 24);
+
+  if (diff < 5) {
+    alert("Orders must be placed at least 5 days in advance.");
+    return;
+  }
+
+  const payment = document.querySelector('input[name="payment"]:checked');
+  if (!payment) {
+    alert("Please select a payment method");
+    return;
+  }
+
+  const address =
+    document.getElementById("name").value + ", " +
+    document.getElementById("address").value + ", " +
+    document.getElementById("city").value + " - " +
+    document.getElementById("pincode").value;
+
+  fetch("http://localhost:3000/api/cart/checkout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: user.id,
+      address: address,
+      payment: payment.value,
+      delivery_date: document.getElementById("date").value,
+      delivery_time: document.getElementById("time").value,
+      total: subtotal + deliveryCharge
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Order placed successfully!");
+    window.location.href = "myorders.html";
+  })
+  .catch(() => {
+    alert("Failed to place order");
+  });
+}
+</script>
+
+
+</body>
+</html>
