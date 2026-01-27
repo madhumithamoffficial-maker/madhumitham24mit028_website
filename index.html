@@ -900,40 +900,40 @@ function setRedirect(e) {
 <script>
 function addToCartFromCard(item) {
 
-  // 🔐 LOGIN CHECK
-  if (!localStorage.getItem("loggedInUser")) {
+  // LOGIN CHECK
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!user) {
     alert("Please login to add items to cart");
-    setRedirect(event);
+    window.location.href = "login.html";
     return;
   }
 
-  // ✅ USER-SPECIFIC CART KEY
-  const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  const CART_KEY = "cart_" + currentUser.email;
-
-  let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-
-  // default quantity
-  item.qty = 1;
-
-  // merge if exists
-  const existing = cart.find(i => i.id === item.id);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push(item);
-  }
-
-  // ✅ SAVE TO USER CART
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
-
-  // go to cart
-  window.location.href = "cart.html";
+  fetch("https://thebackendfile.onrender.com/api/cart/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: user.id,
+      name: item.name,
+      price: item.price,
+      quantity: 1,
+      is_cake: item.weight.includes("kg") ? 1 : 0
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Failed");
+    return res.json();
+  })
+  .then(() => {
+    alert("Item added to cart 🛒");
+    window.location.href = "cart.html";
+  })
+  .catch(() => {
+    alert("Failed to add item to cart");
+  });
 }
-
 </script>
-
-  
 
 </body>
 </html>
